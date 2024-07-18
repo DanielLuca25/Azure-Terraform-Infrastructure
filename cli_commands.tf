@@ -2,7 +2,7 @@ resource "null_resource" "ping" {
     count = var.vm_count
 
     connection {
-      host = azurerm_public_ip.pubip[count.index].ip_adress
+      host = azurerm_public_ip.pubip[count.index].ip_address
       user = "adminuser"
       password = random_password.rp[count.index].result
     }

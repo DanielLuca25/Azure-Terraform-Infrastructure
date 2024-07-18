@@ -7,7 +7,7 @@ terraform{
     }
 
     # backend "azurerm"{
-    #     subscription_id = ""
+    #     subscription_id = "76ee20cb-86ed-48e1-a2a8-abc9d6ed9969"
     #     resource_group_name = "rf-terraform"
     #     storage_account_name = "terrafromstateproj"
     #     container_name = "terraform"
