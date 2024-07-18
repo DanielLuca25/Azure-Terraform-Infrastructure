@@ -1,5 +1,5 @@
 resource "null_resource" "nginx" {
-    count = local.vm_count
+    count = var.vm_count
 
     connection {
       host = azurerm_public_ip.pubip[count.index].ip_address
@@ -17,7 +17,7 @@ resource "null_resource" "nginx" {
     inline = [
       <<-EOF
       if [ ${count.index} -eq 0 ]; then
-        docker login -u ${local.acr_username} -p ${local.acr_password} ${azurerm_container_registry.acr.login_server}
+        docker login -u ${azurerm_container_registry.acr.admin_username} -p ${azurerm_container_registry.acr.admin_password} ${azurerm_container_registry.acr.login_server}
         docker tag nginx:latest ${azurerm_container_registry.acr.login_server}/nginx:latest
         docker push ${azurerm_container_registry.acr.login_server}/nginx:latest
       fi
@@ -29,7 +29,7 @@ resource "null_resource" "nginx" {
     inline = [
       <<-EOF
       if [ ${count.index} -eq 1 ]; then
-        docker login -u ${local.acr_username} -p ${local.acr_password} ${azurerm_container_registry.acr.login_server}
+        docker login -u ${azurerm_container_registry.acr.admin_username} -p ${azurerm_container_registry.acr.admin_password} ${azurerm_container_registry.acr.login_server}
         docker pull ${azurerm_container_registry.acr.login_server}/nginx:latest
         docker run -d -p 80:80 ${azurerm_container_registry.acr.login_server}/nginx:latest
       fi
