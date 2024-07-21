@@ -33,7 +33,8 @@ resource "null_resource" "nginx" {
           "sudo docker push ${azurerm_container_registry.acr.login_server}/nginx:latest",
         ] : [
           "sudo docker pull ${azurerm_container_registry.acr.login_server}/nginx:latest",
-          "sudo docker run -d -p 80:80 ${azurerm_container_registry.acr.login_server}/nginx:latest",
+          "sudo docker stop daniels_container",
+          "sudo docker run -d --name daniels_container -p 80:80 ${azurerm_container_registry.acr.login_server}/nginx:latest",
         ]
       )
     }
