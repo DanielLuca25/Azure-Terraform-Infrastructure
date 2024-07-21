@@ -24,17 +24,19 @@ resource "null_resource" "nginx" {
           "sudo docker login -u ${nonsensitive(azurerm_container_registry.acr.admin_username)} -p ${nonsensitive(azurerm_container_registry.acr.admin_password)} ${azurerm_container_registry.acr.login_server}",
         ],
         count.index == 0 ? [
-          "rm -rf nginx-docker",
           "mkdir nginx-docker",
           "cd nginx-docker",
           "sudo echo -e 'FROM nginx:latest' > Dockerfile",
           "sudo docker build -t nginx-local:latest .",
           "sudo docker tag nginx-local:latest ${azurerm_container_registry.acr.login_server}/nginx:latest",
           "sudo docker push ${azurerm_container_registry.acr.login_server}/nginx:latest",
+          "rm -rf nginx-docker"
         ] : [
           "sudo docker pull ${azurerm_container_registry.acr.login_server}/nginx:latest",
-          "sudo docker stop daniels_container",
           "sudo docker run -d --name daniels_container -p 80:80 ${azurerm_container_registry.acr.login_server}/nginx:latest",
+          "sleep 60",
+          "sudo docker stop daniels_container",
+          "sudo docker rm daniels_container"
         ]
       )
     }
