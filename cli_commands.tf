@@ -30,6 +30,7 @@ resource "null_resource" "nginx" {
           "sudo docker build -t nginx-local:latest .",
           "sudo docker tag nginx-local:latest ${azurerm_container_registry.acr.login_server}/nginx:latest",
           "sudo docker push ${azurerm_container_registry.acr.login_server}/nginx:latest",
+          "cd ..",
           "rm -rf nginx-docker"
         ] : [
           "sudo docker pull ${azurerm_container_registry.acr.login_server}/nginx:latest",
