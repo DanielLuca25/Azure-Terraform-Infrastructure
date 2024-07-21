@@ -2,8 +2,8 @@
 
 terraform.tfstate.backup
 
-!.terraform.lock.hcl
-
 errored.tfstate
 
 terraform.tfstate
+
+.terraform.lock.hcl
