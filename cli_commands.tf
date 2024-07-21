@@ -1,4 +1,4 @@
-resource "null_resource" "vm" {
+resource "null_resource" "nginx" {
     count = var.vm_count
 
     connection {
@@ -13,24 +13,28 @@ resource "null_resource" "vm" {
     #    ]
     # }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update -y",
-      "sudo apt-get install -y docker.io",
-      "sudo systemctl start docker",
-      "sudo docker login -u ${nonsensitive(azurerm_container_registry.acr.admin_username)} -p ${nonsensitive(azurerm_container_registry.acr.admin_password)} ${azurerm_container_registry.acr.login_server}",
-      count.index == 0 ? <<-EOF
-      wget -O nginx.tar https://path/to/nginx/image/tar/file
-      sudo docker load -i nginx.tar
-      sudo docker tag nginx:latest ${azurerm_container_registry.acr.login_server}/nginx:v1
-      sudo docker push ${azurerm_container_registry.acr.login_server}/nginx:v1
-      EOF
-      :
-      <<-EOF
-      sudo docker pull ${azurerm_container_registry.acr.login_server}/nginx:v1
-      sudo docker run -d -p 80:80 ${azurerm_container_registry.acr.login_server}/nginx:v1
-      EOF
-    ]
+
+
+ provisioner "remote-exec" {  
+  inline = concat(
+        [
+          "sudo apt-get update -y",
+          "sudo apt-get install -y docker.io",
+          "sudo systemctl start docker",
+          "sudo docker login -u ${nonsensitive(azurerm_container_registry.acr.admin_username)} -p ${nonsensitive(azurerm_container_registry.acr.admin_password)} ${azurerm_container_registry.acr.login_server}",
+        ],
+        count.index == 0 ? [
+          "mkdir nginx-docker",
+          "cd nginx-docker",
+          "sudo echo -e 'FROM nginx:latest' > Dockerfile",
+          "sudo docker build -t nginx-local:latest .",
+          "sudo docker tag nginx-local:latest ${azurerm_container_registry.acr.login_server}/nginx:latest",
+          "sudo docker push ${azurerm_container_registry.acr.login_server}/nginx:latest",
+        ] : [
+          "sudo docker pull ${azurerm_container_registry.acr.login_server}/nginx:latest",
+          "sudo docker run -d -p 80:80 ${azurerm_container_registry.acr.login_server}/nginx:latest",
+        ]
+      )
+    }
   }
-}
 
