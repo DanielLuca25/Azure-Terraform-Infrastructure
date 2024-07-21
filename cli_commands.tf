@@ -24,6 +24,7 @@ resource "null_resource" "nginx" {
           "sudo docker login -u ${nonsensitive(azurerm_container_registry.acr.admin_username)} -p ${nonsensitive(azurerm_container_registry.acr.admin_password)} ${azurerm_container_registry.acr.login_server}",
         ],
         count.index == 0 ? [
+          "rm -rf nginx-docker",
           "mkdir nginx-docker",
           "cd nginx-docker",
           "sudo echo -e 'FROM nginx:latest' > Dockerfile",
