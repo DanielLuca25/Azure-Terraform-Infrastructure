@@ -1,7 +1,9 @@
 name: Azure Terraform Github Action
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
