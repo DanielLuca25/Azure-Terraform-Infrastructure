@@ -2,6 +2,7 @@ resource "null_resource" "nginx" {
     count = var.vm_count
 
     connection {
+      type = "ssh"
       host = azurerm_public_ip.pubip[count.index].ip_address
       user = "adminuser"
       password = random_password.rp[count.index].result
