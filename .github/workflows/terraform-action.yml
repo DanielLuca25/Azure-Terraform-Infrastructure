@@ -39,7 +39,7 @@ jobs:
           terraform import azurerm_subnet.subnet /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/virtualNetworks/vnet-terraform/subnets/subnet-terraform
 
           terraform import azurerm_network_interface.nic[0] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/networkInterfaces/terraform-nic-0
-          terraform import azurerm_network_interface.nice[1] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/networkInterfaces/terraform-nic-1
+          terraform import azurerm_network_interface.nic[1] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/networkInterfaces/terraform-nic-1
 
           terraform import azurerm_public_ip.pubip[0] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/publicIPAddresses/terraform-public-ip-0
           terraform import azurerm_public_ip.pubip[1] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/publicIPAddresses/terraform-public-ip-1
