@@ -1,4 +1,4 @@
-name: Azure Terraform Github Action
+name: Terraform Azure GitHub Action
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  terraform:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,27 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+
+      - name: Terraform Import
+        run: |
+          terraform import azurerm_resource_group.example /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform
+
+          terraform import azurerm_virtual_network.example /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/virtualNetworks/vnet-terraform
+
+          terraform import azurerm_subnet.example /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/virtualNetworks/vnet-terraform/subnets/subnet-terraform
+
+          terraform import azurerm_network_interface.example[0] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/networkInterfaces/terraform-nic-0
+          terraform import azurerm_network_interface.example[1] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/networkInterfaces/terraform-nic-1
+
+          terraform import azurerm_public_ip.example[0] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/publicIPAddresses/terraform-public-ip-0
+          terraform import azurerm_public_ip.example[1] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Network/publicIPAddresses/terraform-public-ip-1
+
+          terraform import azurerm_storage_account.example /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Storage/storageAccounts/terraformstgacc25
+
+          terraform import azurerm_storage_container.example /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Storage/storageAccounts/terraformstgacc25/blobServices/default/containers/terraformstgcont
+
+          terraform import azurerm_virtual_machine.example[0] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Compute/virtualMachines/terraform-vm-0
+          terraform import azurerm_virtual_machine.example[1] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Compute/virtualMachines/terraform-vm-1
 
       - name: Terraform Validate
         run: terraform validate
