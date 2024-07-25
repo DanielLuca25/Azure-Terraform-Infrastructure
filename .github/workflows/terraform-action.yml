@@ -46,8 +46,6 @@ jobs:
 
           terraform import azurerm_storage_account.stgacc /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Storage/storageAccounts/terraformstgacc25
 
-          terraform import azurerm_storage_container.stgcont /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Storage/storageAccounts/terraformstgacc25/blobServices/default/containers/terraformstgcont
-
           terraform import azurerm_virtual_machine.vm[0] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Compute/virtualMachines/terraform-vm-0
           terraform import azurerm_virtual_machine.vm[1] /subscriptions/76ee20cb-86ed-48e1-a2a8-abc9d6ed9969/resourceGroups/rg-terraform/providers/Microsoft.Compute/virtualMachines/terraform-vm-1
 
